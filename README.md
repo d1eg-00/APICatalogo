@@ -21,6 +21,8 @@ Este projeto foi desenvolvido como parte de estudos e práticas em desenvolvimen
     
 -   **MySQL**  como banco de dados.
     
+-   **Swagger**  para documentação e visualização interativa da API.
+    
 
 ## Funcionalidades
 
@@ -37,3 +39,14 @@ Este projeto foi desenvolvido como parte de estudos e práticas em desenvolvimen
     -   Cadastro de categorias.
         
     -   Associação de produtos a categorias.
+        
+
+## Tecnologias Utilizadas
+
+-   **ASP.NET Core**: Framework para construção de APIs robustas e escaláveis.
+    
+-   **Entity Framework Core**: ORM para mapeamento objeto-relacional e persistência de dados.
+    
+-   **MySQL**: Banco de dados relacional para armazenamento dos dados.
+    
+-   **Swagger**: Documentação interativa da API, permitindo testar endpoints diretamente no navegador.
