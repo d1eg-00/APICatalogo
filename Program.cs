@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using APICatalogo.Context;
+using APICatalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
@@ -24,6 +25,8 @@ builder.Services.AddSwaggerGen();
                       Options.UseMySql(mySqlConnection, 
                       ServerVersion.AutoDetect(mySqlConnection)));
 
+builder.Services.AddTransient<IMeuServico, MeuServico>(); 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,9 +41,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
