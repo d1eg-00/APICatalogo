@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.controllers
 {
-    [Route("[controller]")] //rota básica 
+    [Route("api/[controller]")] //rota básica 
     [ApiController]
     
     public class ProdutosController : ControllerBase
@@ -24,30 +24,43 @@ namespace APICatalogo.controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get() //retorna a lista de produtos
-        {
-            var produtos = _context.Produtos?.AsNoTracking().ToList();
-            if(produtos is null)
-            {
-                return NotFound("Produtos Não Encontrados.");
-            }
-            return produtos;
-        }
 
-        [HttpGet("{id:int}", Name="ObterProduto")]
- 
-        public ActionResult<Produto> Get(int id)
+        [HttpGet("/primeiro")] // /primeiro a "/" faz ele ignorar a rora básica 
+        public ActionResult<Produto> GetPrimeiro() 
         {
-            var produto = _context.Produtos?.FirstOrDefault(p => p.ProdutoId == id); //[BUSCA PRODUTO POR ID]codigo do produto tem que ser igual ao id do request
-            if(produto == null)
+            var produto = _context.Produtos?.FirstOrDefault();
+            if(produto is null)
             {
                 return NotFound("Produto Não Encontrado.");
             }
             return produto;
         }
 
+        [HttpGet] // /produtos
+        public async Task<ActionResult<IEnumerable<Produto>>> Get() //retorna a lista de todos os produtos // async or awaint metodos assincronos incluidos
+        {
+            var produtos = _context.Produtos?.AsNoTracking().ToListAsync();
+            if(produtos is null)
+            {
+                return NotFound("Produtos Não Encontrados.");
+            }
+            return await produtos;
+        }
 
+        // /produtos /id
+        [HttpGet("{id:int:min(1)}", Name="ObterProduto")] //valor minimo 1 ou maior - evitando uma consulta desnecessária ao banco de dados
+ 
+        public async Task<ActionResult<Produto>> Get(int id)
+        {
+            var produto = await _context.Produtos?.FirstOrDefaultAsync(p => p.ProdutoId == id)!; //[BUSCA PRODUTO POR ID]codigo do produto tem que ser igual ao id do request
+            if(produto == null)
+            {
+                return NotFound("Produto Não Encontrado.");
+            }
+            return  produto;
+        }
+
+        // /produtos
         [HttpPost] // criar produto
 
         public ActionResult Post(Produto produto)
